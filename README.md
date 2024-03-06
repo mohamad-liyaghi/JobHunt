@@ -1,1 +1,1 @@
-JobHunter
+JobHunt
