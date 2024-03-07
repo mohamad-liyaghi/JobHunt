@@ -1,0 +1,20 @@
+version: "3.8"
+
+services:
+  backend:
+    container_name: 'jobhunt-users-backend'
+    command: sh "docker/commands/run-backend.sh"
+    tty: true
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./src/:/backend/src/
+      - ./tests/:/backend/src/tests/
+    networks:
+      - main
+
+networks:
+  main:
