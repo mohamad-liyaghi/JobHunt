@@ -16,6 +16,8 @@ pydantic-settings = "^2.2.1"
 black = "^24.2.0"
 asyncpg = "^0.29.0"
 alembic = "^1.13.1"
+pytest-asyncio = "^0.23.5"
+aiosqlite = "^0.20.0"
 
 
 [build-system]
