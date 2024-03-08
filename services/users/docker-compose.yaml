@@ -1,0 +1,41 @@
+version: "3.8"
+
+services:
+  backend:
+    container_name: 'jobhunt-users-backend'
+    command: sh "docker/commands/run-backend.sh"
+    tty: true
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./src/:/backend/src/
+      - ./tests/:/backend/src/tests/
+    depends_on:
+        postgres:
+            condition: service_healthy
+    networks:
+      - main
+
+  postgres:
+    container_name: 'jobhunt-users-postgres'
+    image: postgres:15.4-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    networks:
+      - main
+    env_file:
+      - env/pg.env
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-U", "postgres" ]
+      interval: 2s
+      timeout: 5s
+      retries: 5
+
+networks:
+  main:
+
+volumes:
+    postgres_data:
