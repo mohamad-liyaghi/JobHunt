@@ -2,7 +2,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from typing import Union
 from app.models import User
-from exceptions import DuplicateEmailError
+from app.exceptions import DuplicateEmailError
 
 
 class UserRepository:

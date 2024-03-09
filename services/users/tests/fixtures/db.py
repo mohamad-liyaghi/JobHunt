@@ -24,7 +24,7 @@ async def override_get_db():
 app.dependency_overrides[get_db] = override_get_db  # noqa
 
 
-@pytest_asyncio.fixture(scope="class")
+@pytest_asyncio.fixture(scope="session")
 async def get_test_session() -> AsyncSession:
     """
     Reset database and return a session
