@@ -37,3 +37,12 @@ jobs:
 
       - name: Run The Tests
         run: make test
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Fake Deploy:
+        run: echo "Deploying to production..."
