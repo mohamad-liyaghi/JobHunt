@@ -14,11 +14,8 @@ jobs:
       - name: Setup Docker
         uses: docker/setup-buildx-action@v2
 
-      - name: Change Directory to Users Service
-        run: cd services/users/
-
       - name: Build The Image
-        run: ls && make build
+        run: cd services/users/ &&  && make build
 
   test:
     needs: build
@@ -29,11 +26,8 @@ jobs:
       - name: Setup Docker
         uses: docker/setup-buildx-action@v2
 
-      - name: Change Directory to Users Service
-        run: cd services/users/
-
       - name: Build The Image
-        run: make build
+        run: cd services/users/ && make build
 
       - name: Run The Service
         run: make run DETACHED=true
