@@ -1,6 +1,7 @@
 import pytest
 import pytest_asyncio  # noqa
 import asyncio
+from tests.fixtures.db import get_test_session  # noqa
 
 
 @pytest.fixture(scope="class")

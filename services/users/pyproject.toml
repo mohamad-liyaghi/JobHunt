@@ -18,6 +18,7 @@ asyncpg = "^0.29.0"
 alembic = "^1.13.1"
 pytest-asyncio = "^0.23.5"
 aiosqlite = "^0.20.0"
+faker = "^24.1.0"
 
 
 [build-system]
