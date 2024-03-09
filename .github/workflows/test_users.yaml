@@ -15,7 +15,7 @@ jobs:
         uses: docker/setup-buildx-action@v2
 
       - name: Change Directory to Users Service
-        run: cd services/users
+        run: cd services/users/
 
       - name: Build The Image
         run: ls && make build
@@ -30,7 +30,7 @@ jobs:
         uses: docker/setup-buildx-action@v2
 
       - name: Change Directory to Users Service
-        run: cd services/users
+        run: cd services/users/
 
       - name: Build The Image
         run: make build
