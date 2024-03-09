@@ -18,7 +18,7 @@ jobs:
         run: cd services/users
 
       - name: Build The Image
-        run: make build
+        run: ls && make build
 
   test:
     needs: build
@@ -32,6 +32,9 @@ jobs:
       - name: Change Directory to Users Service
         run: cd services/users
 
+      - name: Build The Image
+        run: make build
+
       - name: Run The Service
         run: make run DETACHED=true
 
@@ -44,5 +47,5 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Fake Deploy:
-        run: echo "Deploying to production..."
+      - name: Fake Deployment
+        run: echo "Deploying the service to the cloud..."
