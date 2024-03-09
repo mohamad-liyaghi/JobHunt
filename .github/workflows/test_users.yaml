@@ -30,7 +30,7 @@ jobs:
         run: cd services/users/ && make build
 
       - name: Run The Service
-        run: make run DETACHED=true
+        run: cd services/users/ && make run DETACHED=true
 
       - name: Run The Tests
         run: make test
