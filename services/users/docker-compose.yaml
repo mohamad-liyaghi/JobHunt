@@ -11,8 +11,7 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - ./src/:/backend/src/
-      - ./tests/:/backend/src/tests/
+      - ./:/backend/
     depends_on:
         postgres:
             condition: service_healthy

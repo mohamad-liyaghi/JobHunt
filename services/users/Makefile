@@ -24,7 +24,7 @@ stop:
 	docker compose down
 
 test:
-	docker exec jobhunt-users-backend pytest
+	docker exec jobhunt-users-backend python -m pytest tests/
 
 
 ruff:

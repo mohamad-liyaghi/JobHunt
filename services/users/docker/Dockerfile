@@ -12,4 +12,4 @@ RUN poetry install --no-root
 
 COPY . /backend/
 
-ENV PYTHONPATH=/src
+ENV PYTHONPATH=/backend/src
