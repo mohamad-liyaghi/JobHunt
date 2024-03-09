@@ -33,7 +33,7 @@ jobs:
         run: cd services/users/ && make run DETACHED=true
 
       - name: Run The Tests
-        run: make test
+        run: cd services/users/ && make test
 
   deploy:
     needs: test
