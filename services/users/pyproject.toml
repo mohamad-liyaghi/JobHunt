@@ -19,6 +19,8 @@ alembic = "^1.13.1"
 pytest-asyncio = "^0.23.5"
 aiosqlite = "^0.20.0"
 faker = "^24.1.0"
+python-jose = "^3.3.0"
+passlib = "^1.7.4"
 
 
 [build-system]
