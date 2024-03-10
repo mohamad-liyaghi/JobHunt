@@ -7,7 +7,7 @@ from app.controllers import UserController
 from app.models import User
 
 
-class TestUserRepository:
+class TestUserController:
     @pytest_asyncio.fixture(autouse=True)
     async def setup(self, get_test_session):
         self.controller = UserController(

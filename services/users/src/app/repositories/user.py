@@ -3,6 +3,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from typing import Union
 from app.models import User
 from app.exceptions import DuplicateEmailError
+from core.handlers import PasswordHandler
 
 
 class UserRepository:
@@ -31,6 +32,9 @@ class UserRepository:
         email = data.get("email")
         if await self.retrieve(email=email):
             raise DuplicateEmailError
+
+        hashed_password = await PasswordHandler.hash_password(data.pop("password"))
+        data.setdefault("password", hashed_password)
 
         instance = self.model(**data)
         self.database_session.add(instance)

@@ -4,6 +4,7 @@ from tests.utils.mocks import create_fake_user_credentials  # noqa
 from app.repositories import UserRepository
 from app.models import User
 from app.exceptions import DuplicateEmailError
+from tests.utils.mocks import USER_PASSWORD  # noqa
 
 
 class TestUserRepository:
@@ -28,6 +29,10 @@ class TestUserRepository:
         }
         with pytest.raises(DuplicateEmailError):
             await self.repository.create(**credentials)
+
+    @pytest.mark.asyncio
+    async def test_password_is_hashed_after_creation(self, user):
+        assert user.password != USER_PASSWORD
 
     @pytest.mark.asyncio
     async def test_retrieve_user(self, user):
