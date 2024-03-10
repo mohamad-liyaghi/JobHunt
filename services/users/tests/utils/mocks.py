@@ -9,5 +9,6 @@ async def create_fake_user_credentials() -> dict:
         "first_name": faker.first_name(),
         "last_name": faker.last_name(),
         "email": faker.email(),
+        "bio": faker.text(max_nb_chars=120),
         "password": USER_PASSWORD,
     }

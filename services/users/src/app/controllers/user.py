@@ -1,4 +1,5 @@
 from fastapi.exceptions import HTTPException
+from fastapi import status
 from app.repositories import UserRepository
 from app.exceptions.user import DuplicateEmailError
 
@@ -11,7 +12,9 @@ class UserController:
         try:
             return await self.repository.create(**kwargs)
         except DuplicateEmailError:
-            raise HTTPException(status_code=400, detail="Email already exists")
+            raise HTTPException(
+                status_code=status.HTTP_409_CONFLICT, detail="Email already exists"
+            )
 
     async def retrieve_by_id(self, user_id):
         user = await self.repository.retrieve(id=user_id)
