@@ -28,13 +28,16 @@ jobs:
         uses: docker/setup-buildx-action@v2
 
       - name: Build The Image
-        run: cd services/users/ && make build
+        working-directory: services/users/
+        run: make build
 
       - name: Run The Service
-        run: cd services/users/ && make run DETACHED=true
+        working-directory: services/users/
+        run: make run DETACHED=true
 
       - name: Run The Tests
-        run: cd services/users/ && make test
+        working-directory: services/users/
+        run: make test
 
   deploy:
     needs: test
