@@ -23,7 +23,7 @@ class JwtConfig(BaseConfig):
     JWT_EXPIRATION_MINUETS: int
 
 
-class Settings(PgConfig):
+class Settings(PgConfig, JwtConfig):
     """This class is used to load environment variables from .env files."""
 
 

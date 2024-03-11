@@ -1,10 +1,9 @@
 import pytest
 import pytest_asyncio
-from tests.utils.mocks import create_fake_user_credentials  # noqa
+from tests.utils.mocks import create_fake_user_credentials, USER_PASSWORD  # noqa
 from app.repositories import UserRepository
 from app.models import User
 from app.exceptions import DuplicateEmailError
-from tests.utils.mocks import USER_PASSWORD  # noqa
 
 
 class TestUserRepository:

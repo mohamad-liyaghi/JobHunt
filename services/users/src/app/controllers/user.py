@@ -1,7 +1,9 @@
 from fastapi.exceptions import HTTPException
 from fastapi import status
+from typing import Union
 from app.repositories import UserRepository
 from app.exceptions.user import DuplicateEmailError
+from core.handlers import JWTHandler, PasswordHandler
 
 
 class UserController:
@@ -21,3 +23,14 @@ class UserController:
         if not user:
             raise HTTPException(status_code=404, detail="User not found")
         return user
+
+    async def login_user(self, email: str, password: str) -> Union[str, None]:
+        user = await self.repository.retrieve(email=email)
+        if not user:
+            raise HTTPException(status_code=404, detail="User not found")
+
+        if not await PasswordHandler.verify_password(user.password, password):
+            raise HTTPException(status_code=403, detail="Invalid password")
+
+        token = await JWTHandler.create_access_token(data={"user_uuid": str(user.uuid)})
+        return token
