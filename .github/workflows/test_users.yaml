@@ -40,6 +40,7 @@ jobs:
         run: make test
 
   test-on-kubernetes:
+    needs: build
     runs-on: ubuntu-latest
 
     steps:
