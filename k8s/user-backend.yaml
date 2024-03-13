@@ -34,7 +34,7 @@ spec:
         spec:
             containers:
               - name: jobhunt-backend
-                image: ml06py/jobhunt-user:latest
+                image: ml06py/jobhunt-user-backend:latest
                 imagePullPolicy: Always
                 ports:
                     - containerPort: 8000
