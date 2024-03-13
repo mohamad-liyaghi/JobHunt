@@ -17,7 +17,7 @@ apiVersion: apps/v1
 kind: Deployment
 
 metadata:
-  name: user-postgres
+  name: jobhunt-user-postgres
   labels:
     service: user-postgres
 
