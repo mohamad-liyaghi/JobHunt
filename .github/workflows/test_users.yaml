@@ -66,7 +66,7 @@ jobs:
         run: kubectl wait --for=condition=available --timeout=60s deployment/jobhunt-user-backend
 
       - name: Run Backend Tests
-        run: kubectl exec -it $(kubectl get pods | grep backend | awk '{print $1}') -- make test
+        run: kubectl exec -it $(kubectl get pods | grep backend | awk '{print $1}') -- /bin/sh -c "make test"
 
   deploy:
     needs: [test-on-docker, test-on-kubernetes]
