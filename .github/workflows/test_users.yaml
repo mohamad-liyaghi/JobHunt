@@ -18,7 +18,7 @@ jobs:
         working-directory: services/users/
         run: make build
 
-  test:
+  test-on-docker:
     needs: build
     runs-on: ubuntu-latest
     steps:
@@ -39,8 +39,36 @@ jobs:
         working-directory: services/users/
         run: make test
 
+  test-on-kubernetes:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up kubectl
+        uses: azure/setup-kubectl@v1
+
+      - name: Start minikube
+        uses: medyagh/setup-minikube@master
+
+
+      - name: Create ConfigMap
+        run:  kubectl create configmap jobhunt-user-env --from-env-file=./services/users/env/pg.env --from-env-file=./services/users/env/jwt.env
+
+      - name: Run Kubernetes Deployments
+        run: kubectl apply -f k8s/
+
+      - name: Wait for Database Deployments
+        run: kubectl wait --for=condition=available --timeout=60s deployment/jobhunt-user-postgres
+
+      - name: Wait for Backend Deployments
+        run: kubectl wait --for=condition=available --timeout=60s deployment/jobhunt-user-backend
+
+      - name: Run Backend Tests
+        run: kubectl exec -it $(kubectl get pods | grep backend | awk '{print $1}') -- make test
+
   deploy:
-    needs: test
+    needs: [test-on-docker, test-on-kubernetes]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
