@@ -1,0 +1,45 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-backend
+  labels:
+      app: jobhunt-backend
+
+spec:
+    selector:
+        app: jobhunt-backend
+    ports:
+        - protocol: TCP
+          port: 8000
+          targetPort: 8000
+    type: LoadBalancer
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jobhunt-backend
+  labels:
+      app: jobhunt-backend
+
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: jobhunt-backend
+    template:
+        metadata:
+            labels:
+                app: jobhunt-backend
+        spec:
+            containers:
+              - name: jobhunt-backend
+                image: ml06py/jobhunt-user:latest
+                imagePullPolicy: Always
+                ports:
+                    - containerPort: 8000
+                command: ["/bin/sh"]
+                args: ["-c", "sh docker/commands/run-backend.sh"]
+                envFrom:
+                  - configMapRef:
+                      name: jobhunt-user-env
