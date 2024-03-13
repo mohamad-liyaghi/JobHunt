@@ -3,11 +3,11 @@ kind: Service
 metadata:
   name: user-backend
   labels:
-      app: jobhunt-backend
+      service: jobhunt-user-backend
 
 spec:
     selector:
-        app: jobhunt-backend
+        service: jobhunt-user-backend
     ports:
         - protocol: TCP
           port: 8000
@@ -18,19 +18,19 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: jobhunt-backend
+  name: jobhunt-user-backend
   labels:
-      app: jobhunt-backend
+      service: jobhunt-user-backend
 
 spec:
     replicas: 1
     selector:
         matchLabels:
-            app: jobhunt-backend
+            service: jobhunt-user-backend
     template:
         metadata:
             labels:
-                app: jobhunt-backend
+                service: jobhunt-user-backend
         spec:
             containers:
               - name: jobhunt-backend
