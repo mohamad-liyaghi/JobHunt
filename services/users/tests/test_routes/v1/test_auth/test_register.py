@@ -23,7 +23,6 @@ class TestRegisterRoute:
     @pytest.mark.asyncio
     async def test_register_user_valid_data(self) -> None:
         response = await self.client.post(self.url, json=self.data)
-        print(response)
         assert response.status_code == status.HTTP_201_CREATED
 
     @pytest.mark.asyncio

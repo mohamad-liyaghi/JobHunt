@@ -62,3 +62,11 @@ class TestUserController:
         invalid_email = user.email + "invalid"
         with pytest.raises(HTTPException):
             await self.controller.login_user(invalid_email, USER_PASSWORD)
+
+    @pytest.mark.asyncio
+    async def test_retrieve_by_uuid(self, user):
+        user = await self.controller.retrieve_by_uuid(user.uuid)
+        assert user is not None
+        assert user.email == user.email
+        assert user.first_name == user.first_name
+        assert isinstance(user, User)

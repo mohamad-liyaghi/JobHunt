@@ -18,6 +18,12 @@ class UserController:
                 status_code=status.HTTP_409_CONFLICT, detail="Email already exists"
             )
 
+    async def retrieve_by_uuid(self, uuid: str):
+        user = await self.repository.retrieve(uuid=uuid)
+        if not user:
+            raise HTTPException(status_code=404, detail="User not found")
+        return user
+
     async def retrieve_by_id(self, user_id):
         user = await self.repository.retrieve(id=user_id)
         if not user:

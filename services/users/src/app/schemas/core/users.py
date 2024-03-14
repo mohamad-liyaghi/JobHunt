@@ -1,3 +1,4 @@
+from uuid import UUID
 from pydantic import BaseModel, Field, EmailStr
 from typing import Optional
 
@@ -10,3 +11,10 @@ class UserBase(BaseModel):
 
     class Config:
         arbitrary_types_allowed = True
+
+
+class CurrentUser(BaseModel):
+    uuid: UUID | str = Field(None, description="User UUID")
+
+    class Config:
+        validate_assignment: bool = True

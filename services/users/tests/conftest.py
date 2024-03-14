@@ -3,7 +3,7 @@ import pytest_asyncio  # noqa
 import asyncio
 from tests.fixtures.db import get_test_session  # noqa
 from tests.fixtures.user import user  # noqa
-from tests.fixtures.client import client  # noqa
+from tests.fixtures.client import client, authorized_client  # noqa
 from tests.utils.controllers import user_controller  # noqa
 
 

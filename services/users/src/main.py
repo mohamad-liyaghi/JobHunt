@@ -1,6 +1,7 @@
 import uvicorn
 from fastapi import FastAPI
 from api import router
+from core.middlewares import AuthBackend, AuthenticationMiddleware
 
 app = FastAPI(
     title="Users Service",
@@ -11,6 +12,10 @@ app = FastAPI(
 )
 
 app.include_router(router)
+app.add_middleware(
+    AuthenticationMiddleware,
+    backend=AuthBackend(),
+)
 
 
 @app.get("/ping")
