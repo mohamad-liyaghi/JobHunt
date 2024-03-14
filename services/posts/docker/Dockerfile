@@ -1,7 +1,8 @@
-FROM golang:1.19-alpine
+FROM golang:1.21.0-alpine
 
 WORKDIR /backend
 
 COPY go.mod go.mod
+
 
 COPY . .
