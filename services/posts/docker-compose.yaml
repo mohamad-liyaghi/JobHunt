@@ -1,0 +1,17 @@
+version: "3.8"
+
+services:
+  backend:
+    container_name: 'jobhunt-posts-backend'
+    command: sh "docker/commands/run-backend.sh"
+    tty: true
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+    volumes:
+      - ./:/backend/
+    networks:
+      - main
+
+networks:
+  main:
