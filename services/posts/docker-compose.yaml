@@ -14,6 +14,27 @@ services:
       - "3000:3000"
     networks:
       - main
+    depends_on:
+      post-postgres:
+        condition: service_healthy
+
+  post-postgres:
+    container_name: 'jobhunt-posts-postgres'
+    image: postgres:15.4-alpine
+    volumes:
+      - post_postgres_data:/var/lib/postgresql/data/
+    networks:
+      - main
+    env_file:
+      - .env
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-U", "postgres" ]
+      interval: 2s
+      timeout: 5s
+      retries: 5
 
 networks:
   main:
+
+volumes:
+  post_postgres_data:
