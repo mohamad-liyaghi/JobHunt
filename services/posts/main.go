@@ -12,7 +12,12 @@ import (
 var DB *gorm.DB
 
 func main() {
-	godotenv.Load()
+	err := godotenv.Load()
+
+	if err != nil {
+		panic("Could not load the environment variables...")
+	}
+
 	println("Loading Environment Variables...")
 	postgresDB := os.Getenv("POSTGRES_DB")
 	postgresUser := os.Getenv("POSTGRES_USER")
@@ -34,7 +39,10 @@ func main() {
 	AutoMigration(DB)
 
 	app := fiber.New()
-	app.Listen(":3000")
+	err = app.Listen(":3000")
+	if err != nil {
+		panic("Could not start the server...")
+	}
 }
 
 func AutoMigration(connection *gorm.DB) {
