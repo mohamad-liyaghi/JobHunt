@@ -6,6 +6,7 @@ import (
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"os"
+	"posts/models"
 )
 
 var DB *gorm.DB
@@ -30,7 +31,20 @@ func main() {
 		println("Connected to the database...")
 	}
 
-	app := fiber.New()
+	AutoMigration(DB)
 
+	app := fiber.New()
 	app.Listen(":3000")
+}
+
+func AutoMigration(connection *gorm.DB) {
+	println("Applying Migrations...")
+	err := connection.Debug().AutoMigrate(
+		&models.Post{},
+	)
+	if err != nil {
+		panic("Could not migrate the database...")
+	} else {
+		println("Database migrated...")
+	}
 }
