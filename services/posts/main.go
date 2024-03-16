@@ -11,44 +11,19 @@ import (
 )
 
 var DB *gorm.DB
+var Redis *redis.Client
 
 func main() {
+	println("Loading Environment Variables...")
 	err := godotenv.Load()
 
 	if err != nil {
 		panic("Could not load the environment variables...")
 	}
 
-	println("Loading Environment Variables...")
-	postgresDB := os.Getenv("POSTGRES_DB")
-	postgresUser := os.Getenv("POSTGRES_USER")
-	postgresPassword := os.Getenv("POSTGRES_PASSWORD")
-	postgresHost := os.Getenv("POSTGRES_HOST")
-	postgresPort := os.Getenv("POSTGRES_PORT")
-
-	redisHost := os.Getenv("REDIS_HOST")
-	redisPort := os.Getenv("REDIS_PORT")
-	redisPassword := os.Getenv("REDIS_PASSWORD")
-
-	println("Connecting to the database...")
-	connection := "host=" + postgresHost + " user=" + postgresUser + " password=" + postgresPassword + " dbname=" + postgresDB + " port=" + postgresPort
-	db, err := gorm.Open(postgres.Open(connection), &gorm.Config{})
-
-	if err != nil {
-		panic("Could not connect to the database...")
-	} else {
-		DB = db
-		println("Connected to the database...")
-	}
-
+	DB = ConnectPostgres()
 	AutoMigration(DB)
-
-	println("Connecting to the redis...")
-	redis := redis.NewClient(&redis.Options{
-		Addr:     redisHost + ":" + redisPort,
-		Password: redisPassword,
-		DB:       0,
-	})
+	Redis = ConnectRedis()
 
 	app := fiber.New()
 	err = app.Listen(":3000")
@@ -67,4 +42,35 @@ func AutoMigration(connection *gorm.DB) {
 	} else {
 		println("Database migrated...")
 	}
+}
+
+func ConnectPostgres() *gorm.DB {
+	println("Connecting to the database...")
+	postgresDB := os.Getenv("POSTGRES_DB")
+	postgresUser := os.Getenv("POSTGRES_USER")
+	postgresPassword := os.Getenv("POSTGRES_PASSWORD")
+	postgresHost := os.Getenv("POSTGRES_HOST")
+	postgresPort := os.Getenv("POSTGRES_PORT")
+	connection := "host=" + postgresHost + " user=" + postgresUser + " password=" + postgresPassword + " dbname=" + postgresDB + " port=" + postgresPort
+	db, err := gorm.Open(postgres.Open(connection), &gorm.Config{})
+
+	if err != nil {
+		panic("Could not connect to the database...")
+	} else {
+		return db
+	}
+}
+
+func ConnectRedis() *redis.Client {
+	println("Connecting to Redis...")
+	redisHost := os.Getenv("REDIS_HOST")
+	redisPort := os.Getenv("REDIS_PORT")
+	redisPassword := os.Getenv("REDIS_PASSWORD")
+
+	redisClient := redis.NewClient(&redis.Options{
+		Addr:     redisHost + ":" + redisPort,
+		Password: redisPassword,
+		DB:       0,
+	})
+	return redisClient
 }
