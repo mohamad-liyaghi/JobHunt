@@ -17,6 +17,8 @@ services:
     depends_on:
       post-postgres:
         condition: service_healthy
+      post-redis:
+        condition: service_started
 
   post-postgres:
     container_name: 'jobhunt-posts-postgres'
@@ -32,6 +34,12 @@ services:
       interval: 2s
       timeout: 5s
       retries: 5
+
+  post-redis:
+    container_name: 'jobhunt-posts-redis'
+    image: redis:7.2-alpine
+    networks:
+      - main
 
 networks:
   main:
