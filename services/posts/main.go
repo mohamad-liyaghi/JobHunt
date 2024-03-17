@@ -9,6 +9,7 @@ import (
 	"os"
 	"posts/middlewares"
 	"posts/models"
+	"posts/routes"
 )
 
 var DB *gorm.DB
@@ -28,6 +29,8 @@ func main() {
 
 	app := fiber.New()
 	app.Use(middlewares.AuthMiddleware)
+	routes.Setup(app)
+
 	err = app.Listen(":3000")
 	if err != nil {
 		panic("Could not start the server...")
