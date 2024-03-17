@@ -7,6 +7,7 @@ import (
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"os"
+	"posts/middlewares"
 	"posts/models"
 )
 
@@ -26,6 +27,7 @@ func main() {
 	Redis = ConnectRedis()
 
 	app := fiber.New()
+	app.Use(middlewares.AuthMiddleware)
 	err = app.Listen(":3000")
 	if err != nil {
 		panic("Could not start the server...")
