@@ -16,7 +16,7 @@ services:
         user-postgres:
             condition: service_healthy
     networks:
-      - main
+      - shared-network
 
   user-postgres:
     container_name: 'jobhunt-users-postgres'
@@ -24,7 +24,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     networks:
-      - main
+      - shared-network
     env_file:
       - env/pg.env
     healthcheck:
@@ -34,7 +34,8 @@ services:
       retries: 5
 
 networks:
-  main:
+  shared-network:
+    external: true
 
 volumes:
     postgres_data:
