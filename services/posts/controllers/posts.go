@@ -25,7 +25,16 @@ func CreatePost(c *fiber.Ctx) error {
 }
 
 func GetPost(c *fiber.Ctx) error {
-	return c.SendString("Get Post Route!")
+	var post models.Post
+	id, _ := strconv.Atoi(c.Params("id"))
+	db.DB.First(&post, id)
+	if post == (models.Post{}) {
+		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
+			"message": "Post not found",
+		})
+	}
+	return c.Status(fiber.StatusOK).JSON(post)
+
 }
 
 func UpdatePost(c *fiber.Ctx) error {
