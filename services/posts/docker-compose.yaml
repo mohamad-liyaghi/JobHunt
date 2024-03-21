@@ -13,7 +13,7 @@ services:
     ports:
       - "3000:3000"
     networks:
-      - shared-network
+      - shared-service-network
     depends_on:
       post-postgres:
         condition: service_healthy
@@ -26,7 +26,7 @@ services:
     volumes:
       - post_postgres_data:/var/lib/postgresql/data/
     networks:
-      - shared-network
+      - shared-service-network
     env_file:
       - .env
     healthcheck:
@@ -39,10 +39,10 @@ services:
     container_name: 'jobhunt-posts-redis'
     image: redis:7.2-alpine
     networks:
-      - shared-network
+      - shared-service-network
 
 networks:
-  shared-network:
+  shared-service-network:
     external: true
 volumes:
   post_postgres_data:

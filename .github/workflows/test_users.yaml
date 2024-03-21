@@ -28,7 +28,7 @@ jobs:
         uses: docker/setup-buildx-action@v2
 
       - name: Create Shared Network
-        run:  docker network create shared-network
+        run:  docker network create shared-service-network
 
       - name: Build The Image
         working-directory: services/users/
