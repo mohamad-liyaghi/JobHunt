@@ -6,9 +6,9 @@ from httpx import AsyncClient
 @pytest.mark.asyncio
 class TestRetrieveProfileRoute:
     @pytest.fixture(autouse=True)
-    def setup_method(self, client: AsyncClient) -> None:
+    def setup_method(self, client: AsyncClient, user) -> None:
         self.client = client
-        self.url = f"v1/profiles/me/"
+        self.url = f"v1/profiles/{user.uuid}/"
 
     @pytest.mark.asyncio
     async def test_retrieve_unauthorized_fails(self) -> None:

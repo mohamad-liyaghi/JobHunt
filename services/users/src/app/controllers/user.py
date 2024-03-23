@@ -1,6 +1,7 @@
 from fastapi.exceptions import HTTPException
 from fastapi import status
 from typing import Union
+from uuid import UUID
 from app.repositories import UserRepository
 from app.exceptions.user import DuplicateEmailError
 from core.handlers import JWTHandler, PasswordHandler
@@ -18,7 +19,7 @@ class UserController:
                 status_code=status.HTTP_409_CONFLICT, detail="Email already exists"
             )
 
-    async def retrieve_by_uuid(self, uuid: str):
+    async def retrieve_by_uuid(self, uuid: UUID):
         user = await self.repository.retrieve(uuid=uuid)
         if not user:
             raise HTTPException(status_code=404, detail="User not found")
