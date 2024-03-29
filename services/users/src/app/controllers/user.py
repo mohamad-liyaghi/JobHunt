@@ -39,5 +39,7 @@ class UserController:
         if not await PasswordHandler.verify_password(user.password, password):
             raise HTTPException(status_code=403, detail="Invalid password")
 
-        token = await JWTHandler.create_access_token(data={"user_uuid": str(user.uuid)})
+        token = await JWTHandler.create_access_token(
+            data={"user_id": str(user.id), "user_uuid": str(user.uuid)}
+        )
         return token
