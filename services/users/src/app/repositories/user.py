@@ -19,11 +19,9 @@ class UserRepository:
         """
         Retrieve a user by their email address.
         """
-
-        user = await self.database_session.execute(
-            select(self.model).filter_by(**kwargs)
-        )
-        return user.scalar()
+        query = select(self.model).filter_by(**kwargs)
+        result = await self.database_session.execute(query)
+        return result.scalars().first()
 
     async def create(self, **data) -> User:
         """

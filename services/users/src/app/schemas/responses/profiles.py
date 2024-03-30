@@ -1,3 +1,4 @@
+from uuid import UUID
 from app.schemas.core.users import UserBase
 
 

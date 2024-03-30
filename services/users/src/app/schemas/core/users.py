@@ -14,6 +14,7 @@ class UserBase(BaseModel):
 
 
 class CurrentUser(BaseModel):
+    id: int = Field(None, description="User ID")
     uuid: UUID | str = Field(None, description="User UUID")
 
     class Config:

@@ -35,10 +35,12 @@ class AuthBackend(AuthenticationBackend):
                 algorithms=[settings.JWT_ALGORITHM],
             )
             user_uuid = payload.get("user_uuid")
+            user_id = payload.get("user_id")
         except JWTError:
             return False, current_user
 
         current_user.uuid = user_uuid
+        current_user.id = user_id
         return True, current_user
 
 

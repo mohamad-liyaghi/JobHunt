@@ -20,7 +20,7 @@ async def authorized_client(user, client) -> AsyncClient:
     Create a new user and login
     """
     access_token = await JWTHandler.create_access_token(
-        data={"user_uuid": str(user.uuid)}
+        data={"user_uuid": str(user.uuid), "user_id": str(user.id)}
     )
     client.headers.update({"Authorization": f"Bearer {access_token}"})
     return client

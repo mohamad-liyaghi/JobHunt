@@ -9,6 +9,7 @@ class JWTHandler:
         """
         Create a new access token.
         """
+        print(f"DATE IN HANDLER", data)
         to_encode = data.copy()
 
         expire_at = datetime.utcnow() + timedelta(settings.JWT_EXPIRATION_MINUETS)

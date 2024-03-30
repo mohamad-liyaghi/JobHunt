@@ -24,5 +24,6 @@ class AuthenticationRequired:
             raise HTTPException(
                 detail="Authentication required", status_code=status.HTTP_403_FORBIDDEN
             )
+        print(request.user)
 
-        return await user_controller.retrieve_by_uuid(request.user.uuid)
+        return await user_controller.retrieve_by_id(request.user.id)
