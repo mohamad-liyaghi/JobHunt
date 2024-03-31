@@ -28,7 +28,7 @@ func AuthMiddleware(c *fiber.Ctx) error {
 	err = json.Unmarshal(body, &user)
 
 	// Store user_id in Locals
-	c.Locals("user_id", user.ID)
+	c.Locals("userId", user.ID)
 
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).SendString("Internal server error")

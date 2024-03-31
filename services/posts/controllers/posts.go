@@ -5,6 +5,7 @@ import (
 	db "posts/config"
 	"posts/models"
 	"strconv"
+	"time"
 )
 
 func GetPosts(c *fiber.Ctx) error {
@@ -21,7 +22,34 @@ func GetPosts(c *fiber.Ctx) error {
 }
 
 func CreatePost(c *fiber.Ctx) error {
-	return c.SendString("Create Post Route!")
+	// get userId from context
+	userId := c.Locals("userId").(int)
+	var data map[string]string
+	if err := c.BodyParser(&data); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": "Invalid JSON",
+		})
+	}
+
+	if data["title"] == "" || data["description"] == "" {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": "Title and Description are required",
+		})
+	}
+
+	post := models.Post{
+		UserId:      userId,
+		Title:       data["title"],
+		Description: data["description"],
+		CreatedAt:   time.Now(),
+	}
+
+	db.DB.Create(&post)
+
+	return c.Status(fiber.StatusCreated).JSON(fiber.Map{
+		"message": "Post created successfully",
+		"post":    post,
+	})
 }
 
 func GetPost(c *fiber.Ctx) error {
