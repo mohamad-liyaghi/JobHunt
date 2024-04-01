@@ -8,7 +8,7 @@ import (
 func Setup(app *fiber.App) {
 	app.Get("/", controllers.GetPosts)
 	app.Post("/", controllers.CreatePost)
-	app.Get("/:uuid", controllers.GetPost)
-	app.Put("/:uuid", controllers.UpdatePost)
-	app.Delete("/:uuid", controllers.DeletePost)
+	app.Get("/:id", controllers.GetPost)
+	app.Put("/:id", controllers.UpdatePost)
+	app.Delete("/:id", controllers.DeletePost)
 }

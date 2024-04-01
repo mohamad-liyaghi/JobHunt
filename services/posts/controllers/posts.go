@@ -70,5 +70,23 @@ func UpdatePost(c *fiber.Ctx) error {
 }
 
 func DeletePost(c *fiber.Ctx) error {
-	return c.SendString("Delete Post Route!")
+	userId := c.Locals("userId").(int)
+	id, _ := strconv.Atoi(c.Params("id"))
+	var post models.Post
+	db.DB.First(&post, id)
+	if post == (models.Post{}) {
+		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
+			"message": "Post not found",
+		})
+	}
+	if post.UserId != userId {
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+			"message": "You are not authorized to delete this post",
+		})
+	}
+
+	db.DB.Delete(&post)
+	return c.Status(fiber.StatusNoContent).JSON(fiber.Map{
+		"message": "Post deleted successfully",
+	})
 }
