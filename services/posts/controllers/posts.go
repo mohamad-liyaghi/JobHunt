@@ -66,7 +66,43 @@ func GetPost(c *fiber.Ctx) error {
 }
 
 func UpdatePost(c *fiber.Ctx) error {
-	return c.SendString("Update Post Route!")
+	userId := c.Locals("userId").(int)
+	id, _ := strconv.Atoi(c.Params("id"))
+	var post models.Post
+	db.DB.First(&post, id)
+	if post == (models.Post{}) {
+		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
+			"message": "Post not found",
+		})
+	}
+	if post.UserId != userId {
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+			"message": "You are not authorized to update this post",
+		})
+	}
+
+	var data map[string]string
+	if err := c.BodyParser(&data); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": "Invalid JSON",
+		})
+	}
+
+	if data["title"] == "" || data["description"] == "" {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": "Title and Description are required",
+		})
+	}
+
+	db.DB.Model(&post).Updates(models.Post{
+		Title:       data["title"],
+		Description: data["description"],
+	})
+
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{
+		"message": "Post updated successfully",
+		"post":    post,
+	})
 }
 
 func DeletePost(c *fiber.Ctx) error {
