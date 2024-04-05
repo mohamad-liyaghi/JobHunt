@@ -60,7 +60,7 @@ jobs:
         run:  kubectl create configmap jobhunt-user-env --from-env-file=./services/users/env/pg.env --from-env-file=./services/users/env/jwt.env
 
       - name: Run Kubernetes Deployments
-        run: kubectl apply -f k8s/
+        run: kubectl apply -f k8s/users/
 
       - name: Wait for Database Deployments
         run: kubectl wait --for=condition=available --timeout=60s deployment/jobhunt-users-postgres
