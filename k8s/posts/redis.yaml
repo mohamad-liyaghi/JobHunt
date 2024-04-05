@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: posts-redis
+  labels:
+    service: jobhunt-posts-redis
+
+spec:
+  selector:
+    service: jobhunt-posts-redis
+  ports:
+    - protocol: TCP
+      port: 8000
+      targetPort: 8000
+  type: LoadBalancer
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jobhunt-posts-redis
+  labels:
+    service: jobhunt-posts-redis
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      service: jobhunt-posts-redis
+  template:
+    metadata:
+      labels:
+        service: jobhunt-posts-redis
+    spec:
+      containers:
+        - name: jobhunt-posts
+          image: redis:6.2-alpine
+          ports:
+            - containerPort: 6379
+          envFrom:
+            - configMapRef:
+                name: jobhunt-posts-env

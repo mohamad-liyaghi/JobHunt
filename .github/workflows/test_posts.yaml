@@ -1,0 +1,73 @@
+name: Build, Test and Deploy Posts Service
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Docker
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build The Image
+        working-directory: services/posts/
+        run: make build
+
+  test-on-docker:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Docker
+        uses: docker/setup-buildx-action@v2
+
+      - name: Create Shared Network
+        run:  docker network create shared-service-network
+
+      - name: Build The Image
+        working-directory: services/posts/
+        run: make build
+
+      - name: Run The Service
+        working-directory: services/posts/
+        run: make run DETACHED=true
+
+  test-on-kubernetes:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up kubectl
+        uses: azure/setup-kubectl@v1
+
+      - name: Start minikube
+        uses: medyagh/setup-minikube@master
+
+      - name: Create ConfigMap
+        run:  kubectl create configmap jobhunt-posts-env --from-env-file=./services/posts/.env
+
+      - name: Run Kubernetes Deployments
+        run: kubectl apply -f k8s/posts/
+
+      - name: Wait for Database Deployments
+        run: kubectl wait --for=condition=available --timeout=60s deployment/jobhunt-posts-postgres
+
+      - name: Wait for Backend Deployments
+        run: kubectl wait --for=condition=available --timeout=60s deployment/jobhunt-posts-backend
+
+  deploy:
+    needs: [test-on-docker, test-on-kubernetes]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Fake Deployment
+        run: echo "Deploying the service to the cloud..."
