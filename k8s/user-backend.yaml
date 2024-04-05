@@ -1,13 +1,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: user-backend
+  name: users-backend
   labels:
-      service: jobhunt-user-backend
+      service: jobhunt-users-backend
 
 spec:
     selector:
-        service: jobhunt-user-backend
+        service: jobhunt-users-backend
     ports:
         - protocol: TCP
           port: 8000
@@ -18,23 +18,23 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: jobhunt-user-backend
+  name: jobhunt-users-backend
   labels:
-      service: jobhunt-user-backend
+      service: jobhunt-users-backend
 
 spec:
     replicas: 1
     selector:
         matchLabels:
-            service: jobhunt-user-backend
+            service: jobhunt-users-backend
     template:
         metadata:
             labels:
-                service: jobhunt-user-backend
+                service: jobhunt-users-backend
         spec:
             containers:
               - name: jobhunt-backend
-                image: ml06py/jobhunt-user-backend:latest
+                image: ml06py/jobhunt-users-backend:latest
                 imagePullPolicy: Always
                 ports:
                     - containerPort: 8000

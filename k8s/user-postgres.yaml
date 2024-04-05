@@ -2,9 +2,9 @@ apiVersion: v1
 kind: Service
 
 metadata:
-  name: user-postgres
+  name: users-postgres
   labels:
-    service:  user-postgres
+    service:  users-postgres
 
 spec:
   ports:
@@ -17,22 +17,22 @@ apiVersion: apps/v1
 kind: Deployment
 
 metadata:
-  name: jobhunt-user-postgres
+  name: jobhunt-users-postgres
   labels:
-    service: user-postgres
+    service: users-postgres
 
 spec:
   replicas: 1
   selector:
     matchLabels:
-      service: user-postgres
+      service: users-postgres
   template:
     metadata:
       labels:
-        service: user-postgres
+        service: users-postgres
     spec:
       containers:
-        - name: jobhunt-user-postgres
+        - name: jobhunt-users-postgres
           image: postgres:15.4-alpine
           ports:
             - containerPort: 5432

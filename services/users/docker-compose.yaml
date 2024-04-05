@@ -1,7 +1,7 @@
 version: "3.8"
 
 services:
-  user-backend:
+  users-backend:
     container_name: 'jobhunt-users-backend'
     command: sh "docker/commands/run-backend.sh"
     tty: true
@@ -13,12 +13,12 @@ services:
     volumes:
       - ./:/backend/
     depends_on:
-        user-postgres:
+        users-postgres:
             condition: service_healthy
     networks:
       - shared-service-network
 
-  user-postgres:
+  users-postgres:
     container_name: 'jobhunt-users-postgres'
     image: postgres:15.4-alpine
     volumes:

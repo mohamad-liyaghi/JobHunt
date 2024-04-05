@@ -1,7 +1,7 @@
 version: "3.8"
 
 services:
-  backend:
+  posts-backend:
     container_name: 'jobhunt-posts-backend'
     command: sh "docker/commands/run-backend.sh"
     tty: true
@@ -15,12 +15,12 @@ services:
     networks:
       - shared-service-network
     depends_on:
-      post-postgres:
+      posts-postgres:
         condition: service_healthy
-      post-redis:
+      posts-redis:
         condition: service_started
 
-  post-postgres:
+  posts-postgres:
     container_name: 'jobhunt-posts-postgres'
     image: postgres:15.4-alpine
     volumes:
@@ -35,7 +35,7 @@ services:
       timeout: 5s
       retries: 5
 
-  post-redis:
+  posts-redis:
     container_name: 'jobhunt-posts-redis'
     image: redis:7.2-alpine
     networks:

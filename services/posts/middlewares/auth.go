@@ -24,7 +24,7 @@ func AuthMiddleware(c *fiber.Ctx) error {
 	_, err := db.Redis.Get(db.RedisCtx, strconv.Itoa(userId)).Result()
 
 	if err != nil {
-		validationURL := "http://user-backend:8000/v1/profiles/me/"
+		validationURL := "http://users-backend:8000/v1/profiles/me/"
 		validationRequest, err := http.NewRequest("GET", validationURL, nil)
 		validationRequest.Header.Set("Authorization", authHeader)
 		validationResponse, err := http.DefaultClient.Do(validationRequest)
