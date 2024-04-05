@@ -1,12 +1,14 @@
 package db
 
 import (
+	"context"
 	"github.com/joho/godotenv"
 	"github.com/redis/go-redis/v9"
 	"os"
 )
 
 var Redis *redis.Client
+var RedisCtx = context.Background()
 
 func ConnectRedis() *redis.Client {
 	err := godotenv.Load()
