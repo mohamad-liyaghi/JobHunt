@@ -42,7 +42,6 @@ func AuthMiddleware(c *fiber.Ctx) error {
 			return c.Status(fiber.StatusForbidden).SendString("Forbidden")
 		}
 		_, err = db.Redis.Set(db.RedisCtx, strconv.Itoa(userId), string(body), 15*time.Minute).Result()
-
 	}
 
 	// Store user_id in Locals
