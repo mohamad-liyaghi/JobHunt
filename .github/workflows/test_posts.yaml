@@ -52,7 +52,8 @@ jobs:
         uses: medyagh/setup-minikube@master
 
       - name: Create ConfigMap
-        run:  kubectl create configmap jobhunt-posts-env --from-env-file=./services/posts/.env
+        working-directory: services/posts/
+        run: make create-configmap
 
       - name: Run Kubernetes Deployments
         run: kubectl apply -f k8s/posts/

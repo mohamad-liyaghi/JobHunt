@@ -57,7 +57,8 @@ jobs:
 
 
       - name: Create ConfigMap
-        run:  kubectl create configmap jobhunt-user-env --from-env-file=./services/users/env/pg.env --from-env-file=./services/users/env/jwt.env
+        working-directory: services/users/
+        run:  make create-configmap
 
       - name: Run Kubernetes Deployments
         run: kubectl apply -f k8s/users/

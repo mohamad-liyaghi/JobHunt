@@ -6,6 +6,7 @@ help:
 	@echo "  build   - Build the docker image."
 	@echo "  run     - Run the docker container."
 	@echo "  stop    - Stop the docker container."
+	@echo "  create-confmap - Create a configmap for the posts service."
 
 
 build:
@@ -20,3 +21,6 @@ endif
 
 stop:
 	docker compose down
+
+create-confmap:
+    kubectl create configmap jobhunt-posts-env --from-env-file=.env

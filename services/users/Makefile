@@ -8,6 +8,7 @@ help:
 	@echo "  stop    - Stop the docker container."
 	@echo "  test    - Run the tests."
 	@echo " ruff    - Run ruff check for backend code."
+	@echo " create-confmap - Create a configmap for the user service."
 
 
 build:
@@ -29,3 +30,6 @@ test:
 
 ruff:
 	docker exec -it jobhunt-users-backend ruff check .
+
+create-confmap:
+    kubectl create configmap jobhunt-user-env --from-env-file=./env/pg.env --from-env-file=./env/jwt.env
