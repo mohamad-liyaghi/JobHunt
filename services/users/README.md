@@ -39,7 +39,7 @@ To run the Users service of the JobHunt project, follow the steps below:
 ### Run on Kubernetes:
 1. Create ConfigMaps for environment variables:
     ```bash
-    make create-confmap
+    make confmap
     ```
 
 2. Apply Kubernetes deployments:
