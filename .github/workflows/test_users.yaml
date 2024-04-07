@@ -56,7 +56,7 @@ jobs:
 
       - name: Create ConfigMap
         working-directory: services/users/
-        run:  make create-configmap
+        run:  make confmap
 
       - name: Run Kubernetes Deployments
         run: kubectl apply -f k8s/users/
